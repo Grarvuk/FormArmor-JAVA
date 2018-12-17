@@ -1,0 +1,19 @@
+create procedure session_autorisee(idClient int)
+
+BEGIN
+    
+    
+    
+    create table if not exists id_session_autorisee(id int(11));
+    delete from id_session_autorisee;
+    insert into id_session_autorisee (id)
+    select id
+    from session_formation
+    where close=0 
+    and formation_id in 
+    	(select formation_id from plan_formation where client_id = idClient) 
+    and nb_places > nb_inscrits;
+    
+    
+    
+END|
