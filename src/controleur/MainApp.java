@@ -39,7 +39,7 @@ public class MainApp extends Application
         try
         {
             this.primaryStage.setTitle("Gestion des inscriptions aux sessions de formations");
-            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/FenFXML_Inscription.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/Accueil.fxml"));
             AnchorPane rootLayout = (AnchorPane) loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);

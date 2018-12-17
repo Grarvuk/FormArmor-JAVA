@@ -39,7 +39,7 @@ public class FenFXML_ConfirmationInscriptionControleur implements Initializable
     {
         txtNom.setText(MainApp.getMonClientSelectionne().getNom());
         txtDate.setText(String.valueOf(MainApp.getMaSessionSelectionnee().getDate_debut()));
-        txtSession.setText(MainApp.getMaSessionSelectionnee().getLibFormation());
+        txtSession.setText(MainApp.getMaSessionSelectionnee().getLibelle());
         txtNbInscrits.setText(String.valueOf(MainApp.getMaSessionSelectionnee().getNb_inscrits()));
         txtNbPlaces.setText(String.valueOf(MainApp.getMaSessionSelectionnee().getNb_places()));
     }

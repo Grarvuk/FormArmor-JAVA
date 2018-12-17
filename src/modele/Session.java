@@ -14,18 +14,36 @@ import java.sql.Date;
 public class Session
 {
     private int id;
-    private String libFormation;
+    private String libelle;
     private Date date_debut;
-    private int nb_places, nb_inscrits;
-    
-    public Session(int id, String libFormation, Date date_debut, int nb_places, int nb_inscrits)
-    {
+    private int nb_places, nb_inscrits,Closes;
+
+ 
+    public Session(int id, String libelle, Date date_debut, int nb_places, int nb_inscrits, int Closes) {
         this.id = id;
-        this.libFormation = libFormation;
+        this.libelle = libelle;
         this.date_debut = date_debut;
         this.nb_places = nb_places;
         this.nb_inscrits = nb_inscrits;
+        this.Closes = Closes;
     }
+
+   public int getCloses() {
+        return Closes;
+    }
+
+    public void setCloses(int Closes) {
+        this.Closes = Closes;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+    
 
     public int getId()
     {
@@ -36,14 +54,6 @@ public class Session
         this.id = id;
     }
 
-    public String getLibFormation()
-    {
-        return libFormation;
-    }
-    public void setLibFormation(String libFormation)
-    {
-        this.libFormation = libFormation;
-    }
 
     public Date getDate_debut()
     {
