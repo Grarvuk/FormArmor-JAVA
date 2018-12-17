@@ -23,7 +23,7 @@ import modele.Session;
 /**
  * FXML Controller class
  *
- * @author Philippe
+ * @author Philippef
  */
 public class FenFXML_ConfirmationInscriptionControleur implements Initializable
 {

@@ -18,7 +18,7 @@ import modele.*;
 /**
  * FXML Controller class
  *
- * @author morga
+ * @author morgaf
  */
 public class ListedesSessionController implements Initializable {
     @FXML

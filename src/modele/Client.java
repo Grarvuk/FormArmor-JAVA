@@ -26,6 +26,7 @@ public class Client
         this.cp = cp;
         this.ville = ville;
         this.email = email;
+        
     }
     
     public int getId()

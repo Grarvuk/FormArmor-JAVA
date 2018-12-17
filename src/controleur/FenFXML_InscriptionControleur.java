@@ -35,7 +35,7 @@ import sql.GestionBdd;
 /**
  * FXML Controller class
  *
- * @author Philippe
+ * @author Philippef
  */
 public class FenFXML_InscriptionControleur implements Initializable
 {

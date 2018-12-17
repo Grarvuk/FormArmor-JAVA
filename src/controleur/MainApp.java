@@ -20,14 +20,14 @@ import modele.Session;
 
 /**
  *
- * @author Philippe
+ * @author Philippef
  */
 public class MainApp extends Application
 {
     private Stage primaryStage;
     private Stage secondaryStage;
     
-    // Pour conserver la session sélectionnée dans le TableView de la fenêtre inscription
+    // Pour conserver la sessionf sélectionnée dans le TableView de la fenêtre inscription
     private static Session maSessionSelectionne;
     // Pour conserver le client sélectionné dans le ComboBox de la fenêtre inscription
     private static Client monClientSelectionne;
