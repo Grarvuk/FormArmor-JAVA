@@ -14,20 +14,28 @@ import java.sql.Date;
 public class Session
 {
     private int id;
-    private String libelle;
+    private String libelle,niveau;
     private Date date_debut;
     private int nb_places, nb_inscrits,Closes;
 
- 
-    public Session(int id, String libelle, Date date_debut, int nb_places, int nb_inscrits, int Closes) {
+    public Session(int id, String libelle, String niveau, Date date_debut, int nb_places, int nb_inscrits, int Closes) {
         this.id = id;
         this.libelle = libelle;
+        this.niveau = niveau;
         this.date_debut = date_debut;
         this.nb_places = nb_places;
         this.nb_inscrits = nb_inscrits;
         this.Closes = Closes;
     }
 
+    public String getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(String niveau) {
+        this.niveau = niveau;
+    }
+    
    public int getCloses() {
         return Closes;
     }

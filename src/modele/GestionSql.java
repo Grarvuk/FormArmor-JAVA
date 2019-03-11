@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.GregorianCalendar;
 import javafx.collections.FXCollections;
 import sql.GestionBdd;
-
+import java.util.ArrayList; 
 import javafx.collections.ObservableList;
 
 public class GestionSql
@@ -60,7 +60,7 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Sélection des sessions autorisées pour le client choisi
-            String req = "select c.nom, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient ";
+            String req = "select c.nom, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient,niveau";
             req += "from session_formation s, client c, plan_formation p, formation f ";
             req += "where c.id = '" + client_id + "' ";
             req += "and p.client_id = c.id and nb_places > nb_inscrits ";
@@ -73,7 +73,7 @@ public class GestionSql
             while (rs.next())
             {
                 // A MODIFIER
-                maSession = new Session(rs.getInt("id"), rs.getString("libelle"), rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
                 lesSessions.add(maSession);
             }
         }
@@ -83,6 +83,8 @@ public class GestionSql
         }
         return lesSessions;
     }
+    
+    
         public static ObservableList<Session> getLesSessions()
     {
         Connection conn;
@@ -95,12 +97,15 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Sélection des sessions autorisées pour le client choisi
-            String req = "SELECT s.id,formation_id,date_debut,nb_places,nb_inscrits,close,libelle from session_formation s,formation f where s.formation_id=f.id order by date_debut";
+            String req = "SELECT s.id,formation_id,date_debut,nb_places,nb_inscrits,close,libelle,niveau from session_formation s,formation f "
+                    + "where s.formation_id=f.id "
+                    +"AND date_debut >= CURDATE() "
+                    + "order by date_debut";
             ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
             while (rs.next())
             {
                 // A MODIFIER
-                maSession = new Session(rs.getInt("id"), rs.getString("libelle"), rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
                 lesSessions.add(maSession);
             }
         }
@@ -111,6 +116,45 @@ public class GestionSql
         return lesSessions;
     }
     
+       public static ArrayList<Client> getLaSessions(int id)
+       {
+            Connection conn;
+            Statement stmt1;
+            Client MonClient;
+            
+           ArrayList<Client> LesClients= new ArrayList<Client>();
+           
+           
+           
+                   try
+                 {
+            // On prévoit 2 connexions à la base
+            stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+            
+            // Sélection des sessions autorisées pour le client choisi
+                    String req="SELECT c.id,nom,adresse,cp,ville,email\n" +
+                        "FROM client c,inscription i\n" +
+                        "WHERE\n" +
+                        "i.client_id=c.id\n" +
+                        "and\n" +
+                        "session_formation_id='"+ id +"'";
+               
+            ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
+            while (rs.next())
+            {
+                // A MODIFIER
+                 MonClient = new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("adresse"), rs.getString("cp"),rs.getString("ville"),rs.getString("email"));
+                LesClients.add(MonClient);
+            }
+        }
+        catch (SQLException se)
+        {
+            System.out.println("Erreur SQL requete getLesSessions : " + se.getMessage());
+        }
+          
+           return  LesClients;
+         
+       }
     
     //Requête permettant l'insertion de l'inscription dans la table inscription et
     //la mise à jour de la table session_formation (+1 inscrit) et

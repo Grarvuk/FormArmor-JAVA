@@ -54,7 +54,7 @@ public class AccueilController implements Initializable {
         try
         {
            stageqq= new Stage();
-            stageqq.setTitle(" Ajouter Un sport a une salle");
+            stageqq.setTitle("Liste de Session");
             FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/ListedesSession.fxml"));
             AnchorPane rootLayout = (AnchorPane) loader.load();
             Scene scene = new Scene(rootLayout);

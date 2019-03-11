@@ -14,6 +14,16 @@ public class Client
     {
     }
 
+    public Client(int id, String nom, String adresse, String cp, String ville, String email) {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.cp = cp;
+        this.ville = ville;
+        this.email = email;
+    }
+
+    
     public Client(int id, int statut_id, int nbhcpta, int nbhbur, String nom, String password, String adresse, String cp, String ville, String email)
     {
         this.id = id;

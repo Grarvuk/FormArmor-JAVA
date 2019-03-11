@@ -5,11 +5,21 @@
  */
 package controleur;
 
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +47,10 @@ public class ListedesSessionController implements Initializable {
     private TableColumn<Session, String> colonneClose;
     @FXML
     private Button buttonGenerer;
-    private String test;
+    
+    private final String Chemin="C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf";
+    
+   
     /**
      * Initializes the controller class.
      * @param url
@@ -62,4 +75,97 @@ public class ListedesSessionController implements Initializable {
           tableSessionsAutorisees.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);       
     }    
     
-}
+    
+    
+    
+    
+    
+    
+  public static PdfPTable premierTableau(int id) throws DocumentException
+  {
+       
+      
+      //On créer un objet table dans lequel on intialise ça taille.
+      PdfPTable table = new PdfPTable(7);
+ 
+       table.setWidthPercentage(100);
+       table.addCell("id");       
+      table.addCell("Nom");       
+      table.addCell("Adresse");       
+      table.addCell("Code Postal");       
+      table.addCell("Ville");       
+      table.addCell("email"); 
+      table.addCell("Signature");
+      
+      ArrayList<Client> LesClients = GestionSql.getLaSessions(id);
+     
+       for(int i=0;i<LesClients.size();i++)
+       {
+           String lid=Integer.toString(LesClients.get(i).getId());        
+      table.addCell(lid);
+      table.addCell(LesClients.get(i).getNom());       
+      table.addCell(LesClients.get(i).getAdresse());       
+      table.addCell(LesClients.get(i).getCp());       
+      table.addCell(LesClients.get(i).getVille());       
+      table.addCell(LesClients.get(i).getEmail()); 
+      table.addCell("");
+           
+       }
+      
+      return table;  
+  }
+    
+    
+    
+    public void HandlePdf() throws IOException
+    {
+   
+         File file = new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf");
+         if(file.exists())
+         {
+             file.delete();
+             Session LaSession=(Session) tableSessionsAutorisees.getSelectionModel().getSelectedItem();
+           Document document = new Document();
+        try 
+        {
+          PdfWriter.getInstance(document, new FileOutputStream(Chemin));
+          document.open();
+
+          document.add(new Paragraph("La session : "+LaSession.getLibelle()+"/"+LaSession.getNiveau()+" "+"Date Debut :"+LaSession.getDate_debut()));
+          document.add(new Paragraph("\n\n"));
+          document.add(premierTableau(LaSession.getId()));
+
+        } catch (DocumentException de) {
+         
+        } catch (IOException ioe) {
+        }
+
+        document.close();
+        Desktop.getDesktop().open(new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf")); 
+         }else{
+             
+            Session LaSession=(Session) tableSessionsAutorisees.getSelectionModel().getSelectedItem();
+           Document document = new Document();
+        try 
+        {
+          PdfWriter.getInstance(document, new FileOutputStream(Chemin));
+          document.open();
+
+          document.add(new Paragraph("La session : "+LaSession.getLibelle()+"/"+LaSession.getNiveau()+" "+"Date Debut :"+LaSession.getDate_debut()));
+          document.add(new Paragraph("\n\n"));
+          document.add(premierTableau(LaSession.getId()));
+
+        } catch (DocumentException de) {
+         
+        } catch (IOException ioe) {
+        }
+
+        document.close();
+        Desktop.getDesktop().open(new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf")); 
+             
+         }
+
+    }
+
+    
+    }

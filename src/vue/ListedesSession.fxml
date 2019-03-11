@@ -17,6 +17,6 @@
             <TableColumn fx:id="colonneClose" prefWidth="51.20001220703125" text="Closes" />
         </columns>
       </TableView>
-      <Button fx:id="buttonGenerer" layoutX="191.0" layoutY="331.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Génerer le pdf" />
+      <Button fx:id="buttonGenerer" layoutX="191.0" layoutY="331.0" mnemonicParsing="false" onAction="#HandlePdf" prefHeight="26.0" prefWidth="157.0" text="Génerer le pdf" />
    </children>
 </AnchorPane>
