@@ -48,7 +48,7 @@ public class ListedesSessionController implements Initializable {
     @FXML
     private Button buttonGenerer;
     
-    private final String Chemin="C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf";
+    private final String Chemin=System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf";
     
    
     /**
@@ -58,6 +58,9 @@ public class ListedesSessionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        System.out.println("chemin : " + Chemin);
+        
       tableSessionsAutorisees.setItems(GestionSql.getLesSessions());
       
        colonneId.setCellValueFactory(new PropertyValueFactory<Session, String>("id"));
@@ -120,7 +123,7 @@ public class ListedesSessionController implements Initializable {
     public void HandlePdf() throws IOException
     {
    
-         File file = new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf");
+         File file = new File(System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf");
          if(file.exists())
          {
              file.delete();
@@ -141,7 +144,7 @@ public class ListedesSessionController implements Initializable {
         }
 
         document.close();
-        Desktop.getDesktop().open(new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf")); 
+        Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf")); 
          }else{
              
             Session LaSession=(Session) tableSessionsAutorisees.getSelectionModel().getSelectedItem();
@@ -161,7 +164,7 @@ public class ListedesSessionController implements Initializable {
         }
 
         document.close();
-        Desktop.getDesktop().open(new File("C:\\Users\\morga\\Documents\\pdf\\pdfSession.pdf")); 
+        Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf")); 
              
          }
 
