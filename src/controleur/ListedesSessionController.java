@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -75,7 +77,29 @@ public class ListedesSessionController implements Initializable {
         
         colonneClose.setCellValueFactory(new PropertyValueFactory<Session, String>("Closes"));
         
-          tableSessionsAutorisees.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);       
+          tableSessionsAutorisees.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);     
+
+       tableSessionsAutorisees.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Session>()
+        {
+            
+            @Override
+            public void changed(ObservableValue<? extends Session> observable, Session oldValue, Session newValue)
+            {
+                // Si une ligne sélectionnée alors
+                System.out.print("PASSAGE 1");
+                if (newValue == null)
+                {
+                    buttonGenerer.setDisable(true);
+                }
+                else
+                {
+                    buttonGenerer.setDisable(false);
+                }
+            }
+        });
+        
+        
+    
     }    
     
     
@@ -122,6 +146,8 @@ public class ListedesSessionController implements Initializable {
     
     public void HandlePdf() throws IOException
     {
+        
+         
    
          File file = new File(System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf");
          if(file.exists())
