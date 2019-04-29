@@ -5,9 +5,11 @@
  */
 package controleur;
 
-
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,23 +23,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Cell;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import modele.*;
+import modele.Client;
+import modele.GestionSql;
+import modele.Session;
 
 /**
  * FXML Controller class
  *
- * @author morgaf
+ * @author Rabelais
  */
-public class ListedesSessionController implements Initializable {
-    @FXML
+public class gestionRentabilite implements Initializable {
+
+        @FXML
   private TableView<Session> tableSessionsAutorisees;
     @FXML
     private TableColumn<Session, String> colonneId;
@@ -58,20 +62,17 @@ public class ListedesSessionController implements Initializable {
     
     Stage StageSport,stageqq;
     
-    private final String Chemin=System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf";
+    private final String Chemin=System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf";     
     
-   
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        buttonGenerer.setDisable(true);
+        buttonGenerer.setVisible(false);
         
         System.out.println("chemin : " + Chemin);
         
-      tableSessionsAutorisees.setItems(GestionSql.getLesSessions());
+      tableSessionsAutorisees.setItems(GestionSql.getLesSessionsInverses());
       
        colonneId.setCellValueFactory(new PropertyValueFactory<Session, String>("id"));
        
@@ -93,27 +94,20 @@ public class ListedesSessionController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Session> observable, Session oldValue, Session newValue)
             {
-                // Si une ligne sélectionnée alors
-                System.out.print("PASSAGE 1");
-                if (newValue == null)
-                {
-                    buttonGenerer.setDisable(true);
-                }
-                else
-                {
-                    buttonGenerer.setDisable(false);
-                 }
+                
+                
             }
         });
-        
-        
-    
-    }    
-    
-    
+    }   
+
+
     public void doubleClick()
     {
-        
+        if(tableSessionsAutorisees.getSelectionModel().getSelectedItem()==precedentSession)
+        {
+            HandleDetailSession();
+        }           
+        precedentSession=(Session) tableSessionsAutorisees.getSelectionModel().getSelectedItem();
     }
     
     
@@ -205,5 +199,32 @@ public class ListedesSessionController implements Initializable {
              
          }
 
+    }
+    
+    public void HandleDetailSession()
+    {
+        try
+        {
+            int idSession = precedentSession.getId();
+            
+            stageqq = new Stage();
+            stageqq.setTitle("Détail de la session");
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/FenFXML_detail_session.fxml"));
+            
+            FenFXML_detail_sessionController controller = new FenFXML_detail_sessionController(precedentSession);
+            
+            loader.setController(controller);
+            
+            AnchorPane rootLayout = (AnchorPane) loader.load();
+            Scene scene = new Scene(rootLayout);
+            stageqq.setScene(scene);
+            
+            stageqq.show();
+            
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur chargement seconde fenetre : " + e.getMessage());
+        }
     }
 }

@@ -56,10 +56,37 @@ public class AccueilController implements Initializable {
            stageqq= new Stage();
             stageqq.setTitle("Liste de Session");
             FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/ListedesSession.fxml"));
+            
+            ListedesSessionController controller = new ListedesSessionController();
+           loader.setController(controller);
+            
             AnchorPane rootLayout = (AnchorPane) loader.load();
             Scene scene = new Scene(rootLayout);
            stageqq.setScene(scene);
             stageqq.show();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur chargement seconde fenetre : " + e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void HandleRentabilte()
+    {
+        try
+        {
+           stageqq= new Stage();
+           stageqq.setTitle("Liste de Session");
+           FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/ListedesSession.fxml"));
+           
+           gestionRentabilite controller = new gestionRentabilite();
+           loader.setController(controller);
+           
+           AnchorPane rootLayout = (AnchorPane) loader.load();
+           Scene scene = new Scene(rootLayout);
+           stageqq.setScene(scene);
+           stageqq.show();
         }
         catch (IOException e)
         {

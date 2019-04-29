@@ -7,7 +7,10 @@ package controleur;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import modele.Session;
 
 /**
  * FXML Controller class
@@ -16,13 +19,49 @@ import javafx.fxml.Initializable;
  */
 public class FenFXML_detail_sessionController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    private Session laSession;
+    
+    @FXML
+    Label
+    txtLib, txtDate, txtNBplace, txtNBinscrits, txtNBabsents, txtTaux, txtRevient, txtCA, txtMarge;      
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
-    }    
-    
+        remplirGrid();
+    }   
+
+    public FenFXML_detail_sessionController(Session pLaSession)
+    {
+        this.laSession = pLaSession;
+    }
+
+    public Session getLaSession()
+    {
+        return laSession;
+    }
+
+    public void setLaSession(Session pLaSession)
+    {
+        this.laSession = pLaSession;
+    }
+
+    public void remplirGrid()
+    {
+        txtLib.setText(laSession.getLibelle());
+        txtDate.setText(String.valueOf(laSession.getDate_debut()));
+        
+        txtNBinscrits.setText(String.valueOf(laSession.getNb_inscrits()));
+        txtNBplace.setText(String.valueOf(laSession.getNb_places()));
+        
+        /*
+        txtRevient.setText("rien");
+        txtTaux.setText("rien");
+        
+        txtCA.setText("rien");
+        txtMarge.setText("rien");
+        txtNBabsents.setText("rien");
+        */
+        
+    }
 }

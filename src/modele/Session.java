@@ -89,4 +89,12 @@ public class Session
     {
         this.nb_inscrits = nb_inscrits;
     }
+
+    @Override
+    public String toString()
+    {
+        return "id : " + getId() + "\nLibelle : " + getLibelle() + "\nDate : " + getDate_debut() + "\nNombre d'inscris : " + getNb_inscrits() + "\nNombre de places : " + getNb_places(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

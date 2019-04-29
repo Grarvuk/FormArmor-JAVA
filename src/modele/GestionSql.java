@@ -115,7 +115,40 @@ public class GestionSql
         }
         return lesSessions;
     }
-    
+        
+        
+        public static ObservableList<Session> getLesSessionsInverses()
+    {
+        Connection conn;
+        Statement stmt1;
+        Session maSession;
+        ObservableList<Session> lesSessions = FXCollections.observableArrayList();
+        try
+        {
+            // On prévoit 2 connexions à la base
+            stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+            
+            // Sélection des sessions autorisées pour le client choisi
+            String req = "SELECT s.id ,formation_id, date_debut, nb_places ,nb_inscrits, close,libelle, niveau from session_formation s,formation f "
+                    + "where s.formation_id=f.id "
+                    +"AND date_debut < CURDATE() "
+                    + "order by date_debut";
+            ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
+            while (rs.next())
+            {
+                // A MODIFIER
+                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                lesSessions.add(maSession);
+            }
+        }
+        catch (SQLException se)
+        {
+            System.out.println("Erreur SQL requete getLesSessions : " + se.getMessage());
+        }
+        return lesSessions;
+    }
+        
+        
        public static ArrayList<Client> getLaSessions(int id)
        {
             Connection conn;
