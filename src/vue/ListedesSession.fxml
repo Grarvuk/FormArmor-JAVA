@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.ListedesSessionController">
+<AnchorPane id="AnchorPane" fx:id="" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.ListedesSessionController">
    <children>
-      <TableView fx:id="tableSessionsAutorisees" layoutX="1.0" layoutY="42.0" prefHeight="250.0" prefWidth="600.0">
+      <TableView fx:id="tableSessionsAutorisees" layoutX="1.0" layoutY="42.0" onMouseClicked="#doubleClick" prefHeight="250.0" prefWidth="600.0">
         <columns>
           <TableColumn fx:id="colonneId" prefWidth="75.0" text="idSession" />
           <TableColumn fx:id="colonneNomFormation" prefWidth="116.80005645751953" text="NomFormation" />
@@ -17,6 +20,6 @@
             <TableColumn fx:id="colonneClose" prefWidth="51.20001220703125" text="Closes" />
         </columns>
       </TableView>
-      <Button fx:id="buttonGenerer" disable="true" layoutX="191.0" layoutY="331.0" mnemonicParsing="false" onAction="#HandlePdf" prefHeight="26.0" prefWidth="157.0" text="Génerer le pdf" />
+      <Button fx:id="buttonGenerer" layoutX="191.0" layoutY="331.0" mnemonicParsing="false" onAction="#HandlePdf" prefHeight="26.0" prefWidth="157.0" text="Génerer le pdf" />
    </children>
 </AnchorPane>

@@ -31,12 +31,12 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Liste des clients qui "ont un plan de formation"
-            String req = "select distinct c.id, statut_id, nom, password, adresse, cp, ville, email, nbhcpta, nbhbur from client c, plan_formation p "
+            String req = "select distinct c.id, statut_id, username, password, adresse, cp, ville, email, nbhcpta, nbhbur from client c, plan_formation p "
             + "where c.id = p.id order by c.id";
             ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
             while (rs.next())
             {
-                monClient = new Client(rs.getInt("id"), rs.getInt("statut_id"), rs.getInt("nbhcpta"), rs.getInt("nbhbur"), rs.getString("nom"), rs.getString("password"), rs.getString("adresse"), rs.getString("cp"), rs.getString("ville"), rs.getString("email"));
+                monClient = new Client(rs.getInt("id"), rs.getInt("statut_id"), rs.getInt("nbhcpta"), rs.getInt("nbhbur"), rs.getString("username"), rs.getString("password"), rs.getString("adresse"), rs.getString("cp"), rs.getString("ville"), rs.getString("email"));
                 lesClients.add(monClient);
             }
         }
@@ -60,7 +60,7 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Sélection des sessions autorisées pour le client choisi
-            String req = "select c.nom, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient,niveau";
+            String req = "select c.username, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient,niveau";
             req += "from session_formation s, client c, plan_formation p, formation f ";
             req += "where c.id = '" + client_id + "' ";
             req += "and p.client_id = c.id and nb_places > nb_inscrits ";
@@ -132,7 +132,7 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Sélection des sessions autorisées pour le client choisi
-                    String req="SELECT c.id,nom,adresse,cp,ville,email\n" +
+                    String req="SELECT c.id,username,adresse,cp,ville,email\n" +
                         "FROM client c,inscription i\n" +
                         "WHERE\n" +
                         "i.client_id=c.id\n" +
@@ -143,7 +143,7 @@ public class GestionSql
             while (rs.next())
             {
                 // A MODIFIER
-                 MonClient = new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("adresse"), rs.getString("cp"),rs.getString("ville"),rs.getString("email"));
+                 MonClient = new Client(rs.getInt("id"), rs.getString("username"), rs.getString("adresse"), rs.getString("cp"),rs.getString("ville"),rs.getString("email"));
                 LesClients.add(MonClient);
             }
         }

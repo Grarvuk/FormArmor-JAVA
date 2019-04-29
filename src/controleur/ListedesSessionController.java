@@ -18,13 +18,17 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import modele.*;
 
 /**
@@ -49,6 +53,10 @@ public class ListedesSessionController implements Initializable {
     private TableColumn<Session, String> colonneClose;
     @FXML
     private Button buttonGenerer;
+    
+    Session precedentSession;
+    
+    Stage StageSport,stageqq;
     
     private final String Chemin=System.getProperty("user.home") + "\\Documents\\pdf\\pdfSession.pdf";
     
@@ -89,11 +97,15 @@ public class ListedesSessionController implements Initializable {
                 System.out.print("PASSAGE 1");
                 if (newValue == null)
                 {
+                    System.out.println("if");
                     buttonGenerer.setDisable(true);
                 }
                 else
                 {
+                    System.out.println("else");
                     buttonGenerer.setDisable(false);
+                    
+                    
                 }
             }
         });
@@ -103,7 +115,15 @@ public class ListedesSessionController implements Initializable {
     }    
     
     
-    
+    public void doubleClick()
+    {
+        if(tableSessionsAutorisees.getSelectionModel().getSelectedItem()==precedentSession)
+        {
+            HandleDetailSession();
+        }    
+                    
+        precedentSession=(Session) tableSessionsAutorisees.getSelectionModel().getSelectedItem();
+    }
     
     
     
@@ -194,6 +214,24 @@ public class ListedesSessionController implements Initializable {
              
          }
 
+    }
+    
+    public void HandleDetailSession()
+    {
+        try
+        {
+            stageqq= new Stage();
+            stageqq.setTitle("Détail de la session");
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/vue/FenFXML_detail_session.fxml"));
+            AnchorPane rootLayout = (AnchorPane) loader.load();
+            Scene scene = new Scene(rootLayout);
+            stageqq.setScene(scene);
+            stageqq.show();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur chargement seconde fenetre : " + e.getMessage());
+        }
     }
 
     
