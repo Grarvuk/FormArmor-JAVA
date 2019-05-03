@@ -6,6 +6,8 @@
 package modele;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -14,11 +16,18 @@ import java.sql.Date;
 public class Session
 {
     private int id;
-    private String libelle,niveau;
+    private String libelle,niveau, diplomante;
     private Date date_debut;
-    private int nb_places, nb_inscrits,Closes;
+    private int nb_places, nb_inscrits, Closes;
+    
+    
+    private ObservableList<Client> lesAbsents;
+    private ObservableList<Client> lesPresents;
+    
+    private double taux, cout, ca, marge;
+    
 
-    public Session(int id, String libelle, String niveau, Date date_debut, int nb_places, int nb_inscrits, int Closes) {
+    public Session(int id, boolean boolDiplomante, String libelle, String niveau, Date date_debut, int nb_places, int nb_inscrits, int Closes) {
         this.id = id;
         this.libelle = libelle;
         this.niveau = niveau;
@@ -26,8 +35,31 @@ public class Session
         this.nb_places = nb_places;
         this.nb_inscrits = nb_inscrits;
         this.Closes = Closes;
+        
+        if(boolDiplomante)
+        {
+            diplomante = "oui";
+        }
+        else
+        {
+            diplomante = "non";
+        }
+        
+        ca = 150;
     }
 
+    public String getDiplomante()
+    {
+        return diplomante;
+    }
+
+    public void setDiplomante(String pDiplomante)
+    {
+        this.diplomante = pDiplomante;
+    }
+
+    
+    
     public String getNiveau() {
         return niveau;
     }
@@ -83,7 +115,7 @@ public class Session
 
     public int getNb_inscrits()
     {
-        return nb_inscrits;
+        return 2;
     }
     public void setNb_inscrits(int nb_inscrits)
     {
@@ -95,6 +127,76 @@ public class Session
     {
         return "id : " + getId() + "\nLibelle : " + getLibelle() + "\nDate : " + getDate_debut() + "\nNombre d'inscris : " + getNb_inscrits() + "\nNombre de places : " + getNb_places(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
+    public ObservableList<Client> getLesAbsents()
+    {
+        return lesAbsents;
+    }
+
+    public void setLesAbsents(ObservableList<Client> pLesAbsents)
+    {
+        
+        this.lesAbsents = pLesAbsents;
+    }
+
+    public int getNbAbsents()
+    {
+        return (lesAbsents.size());
+    }
+    
+    public ObservableList<Client> getLesPresents()
+    {
+        return lesPresents;
+    }
+
+    public void setLesPresents(ObservableList<Client> pLesPresents)
+    {
+        this.lesPresents = pLesPresents;
+    }
+
+
+    public double getTaux()
+    {
+        return taux;
+    }
+
+    public void setTaux(double pTaux)
+    {
+        this.taux = pTaux;
+    }
+
+    public double getCout()
+    {
+        return cout;
+    }
+
+    public void setCout(double pCout)
+    {
+        this.cout = pCout;
+    }
+
+    public double getCa()
+    {
+        return ca;
+    }
+
+    public void setCa(double pCa)
+    {
+        this.ca = pCa;
+    }
+
+    public double getMarge()
+    {
+    return marge;
+    }
+
+    public void setMarge(double pMarge)
+    {
+        this.marge = pMarge;
+    }
+    
+
     
     
 }

@@ -60,7 +60,7 @@ public class GestionSql
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             
             // Sélection des sessions autorisées pour le client choisi
-            String req = "select c.username, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient,niveau";
+            String req = "select c.username, f.diplomante, s.id, f.libelle, f.niveau, date_debut, duree, nb_places, nb_inscrits, coutrevient,niveau";
             req += "from session_formation s, client c, plan_formation p, formation f ";
             req += "where c.id = '" + client_id + "' ";
             req += "and p.client_id = c.id and nb_places > nb_inscrits ";
@@ -73,7 +73,7 @@ public class GestionSql
             while (rs.next())
             {
                 // A MODIFIER
-                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                maSession = new Session(rs.getInt("id"), rs.getBoolean("f.diplomante"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
                 lesSessions.add(maSession);
             }
         }
@@ -105,7 +105,7 @@ public class GestionSql
             while (rs.next())
             {
                 // A MODIFIER
-                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                maSession = new Session(rs.getInt("id"), rs.getBoolean(""), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
                 lesSessions.add(maSession);
             }
         }
@@ -137,7 +137,7 @@ public class GestionSql
             while (rs.next())
             {
                 // A MODIFIER
-                maSession = new Session(rs.getInt("id"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
+                maSession = new Session(rs.getInt("id"), rs.getBoolean("f.diplomante"), rs.getString("libelle"),rs.getString("niveau") ,rs.getDate("date_debut"), rs.getInt("nb_places"), rs.getInt("nb_inscrits"),rs.getInt("close"));
                 lesSessions.add(maSession);
             }
         }
@@ -223,5 +223,65 @@ public class GestionSql
         int nb1 = GestionBdd.envoiRequeteLID(stmt1, req);
         int nb2 = GestionBdd.envoiRequeteLID(stmt1, req2);
         int nb3 = GestionBdd.envoiRequeteLID(stmt1, req4);
+    }
+    
+    static public ObservableList<Client> listePresents(int idSession)
+    {
+        Connection conn;
+        Statement stmt1;
+        Client monClient;
+        ObservableList<Client> lesClients = FXCollections.observableArrayList();
+        try
+        {
+            // On prévoit 2 connexions à la base
+            stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+            
+            // Liste des clients qui "ont un plan de formation"
+            String req = "SELECT * FROM client c, inscription i, plan_formation p, session_formation s "
+                    + "WHERE c.id = i.client_id AND p.client_id = c.id AND s.id = i.session_formation_id "
+                    + "AND p.effectue=1 and s.id = " + idSession;
+            ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
+            while (rs.next())
+            {
+                monClient = new Client(rs.getInt("id"), rs.getInt("statut_id"), rs.getInt("nbhcpta"), rs.getInt("nbhbur"), rs.getString("username"), rs.getString("password"), rs.getString("adresse"), rs.getString("cp"), rs.getString("ville"), rs.getString("email"));
+                lesClients.add(monClient);
+            }
+        }
+        catch (SQLException se)
+        {
+            System.out.println("Erreur SQL requete getLesClients : " + se.getMessage());
+        }
+        return lesClients;
+        //
+    }
+    
+    static public ObservableList<Client> listeAbsents(int idSession)
+    {
+        Connection conn;
+        Statement stmt1;
+        Client monClient;
+        ObservableList<Client> lesClients = FXCollections.observableArrayList();
+        try
+        {
+            // On prévoit 2 connexions à la base
+            stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+            
+            // Liste des clients qui "ont un plan de formation"
+            String req = "SELECT * FROM client c, inscription i, plan_formation p, session_formation s "
+                    + "WHERE c.id = i.client_id AND p.client_id = c.id AND s.id = i.session_formation_id "
+                    + "AND p.effectue=0 and s.id = " + idSession;
+            ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
+            while (rs.next())
+            {
+                monClient = new Client(rs.getInt("id"), rs.getInt("statut_id"), rs.getInt("nbhcpta"), rs.getInt("nbhbur"), rs.getString("username"), rs.getString("password"), rs.getString("adresse"), rs.getString("cp"), rs.getString("ville"), rs.getString("email"));
+                lesClients.add(monClient);
+            }
+        }
+        catch (SQLException se)
+        {
+            System.out.println("Erreur SQL requete getLesClients : " + se.getMessage());
+        }
+        return lesClients;
+        //
     }
 }

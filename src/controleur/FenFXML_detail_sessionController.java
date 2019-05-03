@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import modele.Session;
+import modele.*;
 
 /**
  * FXML Controller class
@@ -23,11 +23,14 @@ public class FenFXML_detail_sessionController implements Initializable {
     
     @FXML
     Label
-    txtLib, txtDate, txtNBplace, txtNBinscrits, txtNBabsents, txtTaux, txtRevient, txtCA, txtMarge;      
+    txtLib, txtDate, txtNBplace, txtNBinscrits, txtNBabsents, txtTaux, txtRevient, txtCA, txtMarge, txtDiplomante;      
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        laSession.setLesAbsents(GestionSql.listeAbsents(laSession.getId()));
+        laSession.setLesPresents(GestionSql.listePresents(laSession.getId()));
+        
         remplirGrid();
     }   
 
@@ -50,18 +53,17 @@ public class FenFXML_detail_sessionController implements Initializable {
     {
         txtLib.setText(laSession.getLibelle());
         txtDate.setText(String.valueOf(laSession.getDate_debut()));
-        
         txtNBinscrits.setText(String.valueOf(laSession.getNb_inscrits()));
         txtNBplace.setText(String.valueOf(laSession.getNb_places()));
-        
-        /*
-        txtRevient.setText("rien");
-        txtTaux.setText("rien");
-        
-        txtCA.setText("rien");
-        txtMarge.setText("rien");
-        txtNBabsents.setText("rien");
-        */
-        
+        txtRevient.setText(String.valueOf(laSession.getCout()));
+        txtTaux.setText(String.valueOf(laSession.getTaux()));
+        //txtCA.setText(String.valueOf(150.00));
+        //txtMarge.setText(String.valueOf(laSession.getMarge()));
+        txtDiplomante.setText(String.valueOf(laSession.getDiplomante()));
+        txtNBabsents.setText(String.valueOf(laSession.getNbAbsents()));
+    }
+    
+    public void getNbAbsent()
+    {
     }
 }
